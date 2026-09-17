@@ -1,3 +1,5 @@
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -56,7 +58,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
-// JWT Authentication Setup
+// JWT Authentication & Role Authorization Setup
 var secretKey = builder.Configuration["Jwt:SecretKey"] ?? "NsTechSuperSecretJwtKey2026_Minimum32Bytes!";
 builder.Services.AddAuthentication(options =>
 {
@@ -72,9 +74,12 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secretKey)),
         ValidateIssuer = false,
-        ValidateAudience = false
+        ValidateAudience = false,
+        RoleClaimType = ClaimTypes.Role
     };
 });
+
+builder.Services.AddAuthorization();
 
 var app = builder.Build();
 

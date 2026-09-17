@@ -7,9 +7,9 @@ using NsTech.Challenge.Application.DTOs.Orders;
 using NsTech.Challenge.Application.Services;
 using NsTech.Challenge.Domain.Entities;
 
-[Authorize]
 [ApiController]
 [Route("orders")]
+[Authorize(Roles = "Admin")]
 public class OrdersController : ControllerBase
 {
     private readonly IOrderApplicationService _orderService;
