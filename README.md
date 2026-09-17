@@ -35,21 +35,17 @@ nstech-challenge/
 
 ## 🛠️ Como Executar a Aplicação
 
-### 1. Subir o Banco PostgreSQL via Docker Compose
+A forma recomendada para rodar a solução inteira (API + Banco de Dados PostgreSQL) é utilizando o **Docker Compose**:
 
-Na raiz do projeto, execute o comando abaixo para iniciar o container do PostgreSQL:
+### 1. Execução Completa via Docker Compose (API + Banco)
 
-```bash
-docker-compose up -d
-```
-
-### 2. Executar a API Principal
+Na raiz do projeto, execute:
 
 ```bash
-dotnet run --project src/NsTech.Challenge.Api/NsTech.Challenge.Api.csproj
+docker-compose up --build -d
 ```
 
-Acesse a documentação Swagger interativa em: `http://localhost:5000/swagger`
+A API subirá automaticamente aplicará as migrations e o seeding no startup, ficando acessível em: `http://localhost:5000/swagger`
 
 ## 🧪 Como Executar os Testes
 
