@@ -1,0 +1,34 @@
+services:
+  nstech-db:
+    image: postgres:16-alpine
+    container_name: nstech-db
+    environment:
+      POSTGRES_DB: nstech_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: NsTechPassword123!
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nstech_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  nstech-api:
+    container_name: nstech-api
+    build:
+      context: .
+      dockerfile: src/NsTech.Challenge.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=nstech-db;Database=nstech_db;Username=postgres;Password=NsTechPassword123!
+    depends_on:
+      nstech-db:
+        condition: service_healthy
+
+volumes:
+  postgres_data:

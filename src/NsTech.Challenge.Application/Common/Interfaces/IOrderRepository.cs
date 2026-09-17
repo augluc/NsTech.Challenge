@@ -1,0 +1,18 @@
+﻿namespace NsTech.Challenge.Application.Common.Interfaces;
+
+using NsTech.Challenge.Domain.Entities;
+
+public interface IOrderRepository
+{
+    Task<Order?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task AddAsync(Order order, CancellationToken cancellationToken = default);
+    Task UpdateAsync(Order order, CancellationToken cancellationToken = default);
+    Task<(IEnumerable<Order> Items, int TotalCount)> GetPagedAsync(
+        Guid? customerId,
+        OrderStatus? status,
+        DateTime? from,
+        DateTime? to,
+        int page,
+        int pageSize,
+        CancellationToken cancellationToken = default);
+}
